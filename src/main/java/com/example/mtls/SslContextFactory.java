@@ -49,6 +49,8 @@ class SslContextFactory {
             for (TrustManager trustManager : bundle.getManagers().getTrustManagers()) {
                 if (trustManager instanceof X509TrustManager x509TrustManager) {
                     trustManagers.add(x509TrustManager);
+                } else {
+                    throw new IllegalStateException("Unsupported trust manager type: " + trustManager.getClass());
                 }
             }
         }
