@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.ssl.SslBundle;
 import org.springframework.boot.ssl.SslBundles;
+import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.JdkClientHttpRequestFactory;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -35,9 +36,9 @@ class Client {
 
     @Scheduled(fixedDelay = 1_000)
     void run() {
-        String localhost = this.client.get().uri("https://localhost:8443").retrieve().body(String.class);
-        LOGGER.info("Got '{}'", localhost);
-        String exampleCom = this.client.get().uri("https://example.com").retrieve().body(String.class);
-        LOGGER.info("Got '{}'", exampleCom);
+        ResponseEntity<String> localhost = this.client.get().uri("https://localhost:8443").retrieve().toEntity(String.class);
+        LOGGER.info("Got {} from localhost", localhost.getStatusCode());
+        ResponseEntity<String> exampleCom = this.client.get().uri("https://example.com").retrieve().toEntity(String.class);
+        LOGGER.info("Got {} from example.com", exampleCom.getStatusCode());
     }
 }
