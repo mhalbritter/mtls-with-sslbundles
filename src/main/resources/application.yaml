@@ -1,0 +1,26 @@
+spring:
+  ssl:
+    bundle:
+      jks:
+        cacerts:
+          truststore:
+            location: "${java.home}/lib/security/cacerts"
+            password: "changeit"
+      pem:
+        server:
+          keystore:
+            private-key: "./certs/server.key"
+            certificate: "./certs/server.crt"
+          truststore:
+            certificate: "./certs/client.crt"
+        client:
+          keystore:
+            private-key: "./certs/client.key"
+            certificate: "./certs/client.crt"
+          truststore:
+            certificate: "./certs/server.crt"
+server:
+  port: 8443
+  ssl:
+    bundle: "server"
+    client-auth: need
